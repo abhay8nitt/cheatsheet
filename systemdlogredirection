@@ -1,0 +1,27 @@
+
+Platform : Ubuntu/16.04
+
+Create a config file and place it in /etc/syslog-ng/conf.d/
+
+mytemplate is SYSLOG_IDENTIFIER registered in the mytemplate.service file as
+
+[Unit]
+....
+...
+
+[Service]
+....
+...
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=mytemplate
+....
+...
+[Install]
+....
+
+I have created a syslog-ng configuration file /etc/syslog-ng/conf.d/template.conf The contents of the file are as under
+
+filter f_mytemplate { match("mytemplate" value("MESSAGE")); };
+destination d_mytemplate { file("/var/log/mytemplate/mytemplate.log"); };
+log { source(s_src); filter(f_mytemplate); destination(d_mytemplate); };
