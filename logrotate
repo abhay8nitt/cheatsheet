@@ -1,0 +1,24 @@
+Log rotation steps
+  1. Create a log rotation file. A sample is below
+      # sample logrotate configuration file
+       compress
+
+       /var/log/messages {
+           rotate 5
+           weekly
+           postrotate
+               /usr/bin/killall -HUP syslogd
+           endscript
+       }
+
+       "/var/log/httpd/access.log" /var/log/httpd/error.log {
+           rotate 5
+           mail www@my.org
+           size 100k
+           sharedscripts
+           postrotate
+               /usr/bin/killall -HUP httpd
+           endscript
+       }
+  2. To know details about the options available with log rotate read - *man logrotate* 
+  3. Either manually or in the build installation step, copy the log rotate file created in the step 1 under /etc/logrotate.d/ 
